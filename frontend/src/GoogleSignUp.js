@@ -8,10 +8,11 @@ const GoogleSignUp = () => {
     const navigate = useNavigate();
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
-
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
-        onError: (error) => console.log('Login Failed:', error)
+        onSuccess: (codeResponse) =>{
+            setUser(codeResponse);
+        },
+        onError: (error) => console.log('Login Failed:', error),
     });
 
     useEffect(
@@ -28,12 +29,12 @@ const GoogleSignUp = () => {
                         setProfile(res.data);
                     })
                     .catch((err) => console.log(err));
+                
+                
             }
         },
         [ user ]
     );
-
-
     
     return (
         <>
@@ -43,7 +44,8 @@ const GoogleSignUp = () => {
             <br />
             <br />
             {profile.name? (
-                navigate('/home', {state: profile})
+                navigate('/', {state: profile}),
+                <div className='text-center'>You have already Logged in as {profile.name}</div>
                 
             ) : (
                 <button onClick={login} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm'>Sign in with Google 🚀 </button>
